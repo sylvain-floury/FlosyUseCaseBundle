@@ -1,0 +1,3 @@
+UserCase:
+    resource: "@FlosyUseCaseBundle/Controller"
+    type:     annotation

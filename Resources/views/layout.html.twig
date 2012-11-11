@@ -1,0 +1,38 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+
+{% block nav %}
+   <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">UseCaseBundle</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              <li class="active"><a href="{{ path('use_case') }}">Home</a></li>
+              <li><a href="{{ path('use_case_project') }}">Project</a></li>
+              <li><a href="">Scenario</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+{% endblock nav %}
+
+    <div class="container">
+{% block title %}
+    <h1>Title</h1>
+{% endblock title %}
+
+{% block content %}
+    content
+{% endblock content %}
+    </div>
+
+{% endblock body %}

@@ -1,5 +1,12 @@
-<h1>Project list</h1>
+{% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
+{% block title %}
+    <h1>Project list</h1>
+{% endblock title %}
+
+
+{% block content %}
+    
 <table class="records_list">
     <thead>
         <tr>
@@ -41,3 +48,4 @@
         </a>
     </li>
 </ul>
+{% endblock content %}
