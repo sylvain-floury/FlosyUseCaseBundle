@@ -35,6 +35,12 @@ class Project
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="UseCase", mappedBy="project")
+     */
+    private $usecases;
 
     /**
      * @Gedmo\Timestampable(on="create")

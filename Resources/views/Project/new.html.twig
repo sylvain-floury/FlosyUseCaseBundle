@@ -1,16 +1,25 @@
-<h1>Project creation</h1>
+{% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
-<form action="{{ path('use_case_project_create') }}" method="post" {{ form_enctype(form) }}>
+{% block title %}
+{{ 'views.project.new.title'|trans({}, 'FlosyUseCaseBundle') }}
+{% endblock %}
+
+{% block page %}
+
+<h1>{{ 'views.project.new.title'|trans({}, 'FlosyUseCaseBundle') }}</h1>
+
+<form class="well" action="{{ path('project_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
-        <button type="submit">Create</button>
+        <button type="submit" class="btn btn-success">{{ 'views.common.actions.create'|trans({}, 'FlosyUseCaseBundle') }}</button>
     </p>
 </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('use_case_project') }}">
-            Back to the list
+<div>
+    <div class="float-left">
+        <a class="btn" href="{{ path('project') }}">
+            {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
-    </li>
-</ul>
+    </div>
+</div>
+{% endblock %}

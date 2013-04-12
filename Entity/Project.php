@@ -35,6 +35,12 @@ class Project
      * @ORM\Column(name="description", type="text")
      */
     private $description;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="UseCase", mappedBy="project")
+     */
+    private $useCases;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -138,5 +144,49 @@ class Project
         $this->updated = $updated;
     
         return $this;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->useCases = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add useCases
+     *
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
+     * @return Project
+     */
+    public function addUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases)
+    {
+        $this->useCases[] = $useCases;
+
+        return $this;
+    }
+
+    /**
+     * Remove useCases
+     *
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
+     */
+    public function removeUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases)
+    {
+        $this->useCases->removeElement($useCases);
+    }
+
+    /**
+     * Get useCases
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUseCases()
+    {
+        return $this->useCases;
+    }
+    
+    public function __toString() {
+        return $this->name;
     }
 }

@@ -44,14 +44,19 @@ class UseCase
     private $precondition;
     
     /**
-     *
-     * @ORM\OneToMany(targetEntity="Actor", mappedBy="userCase") 
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="useCases")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     **/
+    private $project;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Actor", mappedBy="useCases")
      */
     protected $actors;
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Scenario", mappedBy="userCase") 
+     * @ORM\OneToMany(targetEntity="Scenario", mappedBy="useCase") 
      */
     protected $scenarii;
 
@@ -202,5 +207,32 @@ class UseCase
     public function getActors()
     {
         return $this->actors;
+    }
+
+    /**
+     * Set project
+     *
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\Project $project
+     * @return UseCase
+     */
+    public function setProject(\Flosy\Bundle\UseCaseBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \Flosy\Bundle\UseCaseBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
+    }
+    
+    public function __toString() {
+        return $this->getTitle();
     }
 }

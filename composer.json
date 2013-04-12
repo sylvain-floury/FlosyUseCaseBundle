@@ -17,23 +17,10 @@
         "symfony/framework-bundle": ">=2.1,<2.3-dev",
         "symfony/security-bundle": ">=2.1,<2.3-dev",
         "stof/doctrine-extensions-bundle": "dev-master",
-        "mopa/bootstrap-bundle": "dev-master",
+        "jordillonch/crud-generator": "dev-master"
     },
-//    "require-dev": {
-//        "twig/twig": "*",
-//        "doctrine/doctrine-bundle": "*",
-//        "swiftmailer/swiftmailer": "*",
-//        "willdurand/propel-typehintable-behavior": "dev-master",
-//        "symfony/yaml": "2.1.*",
-//        "symfony/validator": "2.1.*"
-//    },
     "autoload": {
         "psr-0": { "Flosy\\Bundle\\UseCaseBundle": "" }
     },
     "target-dir": "Flosy/Bundle/UseCaseBundle",
-//    "extra": {
-//        "branch-alias": {
-//            "dev-master": "2.0.x-dev"
-//        }
-    }
 }

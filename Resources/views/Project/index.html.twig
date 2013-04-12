@@ -1,51 +1,90 @@
 {% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
 {% block title %}
-    <h1>Project list</h1>
-{% endblock title %}
+{{ 'views.project.index.list'|trans({}, 'FlosyUseCaseBundle') }}
+{% endblock %}
 
+{% block page %}
 
-{% block content %}
-    
-<table class="records_list">
+<div class="row">
+
+    <div class="span8">
+        <h1>{{ 'views.project.index.list'|trans({}, 'FlosyUseCaseBundle') }}</h1>
+    </div>
+    <div class="span2">
+        {% if form_errors(filterForm) %}
+        <div class="alert alert-block alert-error fade in form-errors">
+            {{ form_errors(filterForm) }}
+        </div>
+        {% endif %}
+        &nbsp;
+    </div>
+    <div class="span2">
+        <div class="filters-right">
+            <a class="btn dropdown-toggle" data-toggle="collapse" data-target="#filters">
+                {{ 'views.common.filters.title'|trans({}, 'FlosyUseCaseBundle') }}
+                <span class="caret"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="span12">
+        <div id="filters" class="collapse">
+
+            <form class="well" action="{{ path('project') }}" method="get" {{ form_enctype(filterForm) }}>
+                {{ form_row(filterForm.name) }}
+                {{ form_row(filterForm.description) }}
+                {{ form_rest(filterForm) }}
+
+                <p>
+                    <button type="submit" name="filter_action" value="reset">{{ 'views.common.filters.reset'|trans({}, 'FlosyUseCaseBundle') }}</button>
+                    <button type="submit" name="filter_action" value="filter">{{ 'views.common.filters.filter'|trans({}, 'FlosyUseCaseBundle') }}</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="span12">
+
+    <table class="table table-striped table-bordered table-condensed">
     <thead>
         <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Created</th>
-            <th>Updated</th>
-            <th>Actions</th>
+            <th>{{ 'entities.project.attr.name'|trans({}, 'FlosyUseCaseBundle') }}</th>
+            <th>{{ 'entities.project.attr.description'|trans({}, 'FlosyUseCaseBundle') }}</th>
+            <th>{{ 'entities.project.attr.created'|trans({}, 'FlosyUseCaseBundle') }}</th>
+            <th>{{ 'entities.project.attr.updated'|trans({}, 'FlosyUseCaseBundle') }}</th>
+            <th>{{ 'views.common.actions.list_title'|trans({}, 'FlosyUseCaseBundle') }}</th>
         </tr>
     </thead>
     <tbody>
     {% for entity in entities %}
         <tr>
-            <td><a href="{{ path('use_case_project_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
             <td>{{ entity.name }}</td>
             <td>{{ entity.description }}</td>
             <td>{% if entity.created %}{{ entity.created|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
             <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('use_case_project_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('use_case_project_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
+        <a class="btn btn-mini" href="{{ path('project_show', { 'id': entity.id }) }}">
+            {{ 'views.common.actions.show'|trans({}, 'FlosyUseCaseBundle') }}
+        </a>
+        <a class="btn btn-mini" href="{{ path('project_edit', { 'id': entity.id }) }}">
+            {{ 'views.common.actions.edit'|trans({}, 'FlosyUseCaseBundle') }}
+        </a>            </td>
         </tr>
     {% endfor %}
     </tbody>
 </table>
+    </div>
 
-<ul>
-    <li>
-        <a href="{{ path('use_case_project_new') }}">
-            Create a new entry
+    <div class="span4">
+    {{ pagerHtml|raw }}
+    </div>
+
+        <div class="span8">
+    <a class="btn btn-primary likepaginator" href="{{ path('project_new') }}">
+            {{ 'views.project.index.createnew'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
-    </li>
-</ul>
-{% endblock content %}
+    </div>
+    </div>
+
+{% endblock %}

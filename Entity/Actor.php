@@ -37,10 +37,10 @@ class Actor
     
     /**
      *
-     * @ORM\ManyToOne(targetEntity="UseCase", inversedBy="actors")
-     * @ORM\JoinColumn(name="use_case_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="UseCase", inversedBy="actors")
+     * @ORM\JoinTable(name="users_groups")
      */
-    protected $useCase;
+    protected $useCases;
 
 
     /**
@@ -99,26 +99,45 @@ class Actor
         return $this->type;
     }
 
+    
     /**
-     * Set useCase
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->useCases = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add useCases
      *
-     * @param Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCase
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
      * @return Actor
      */
-    public function setUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCase = null)
+    public function addUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases)
     {
-        $this->useCase = $useCase;
-    
+        $this->useCases[] = $useCases;
+
         return $this;
     }
 
     /**
-     * Get useCase
+     * Remove useCases
      *
-     * @return Flosy\Bundle\UseCaseBundle\Entity\UseCase 
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
      */
-    public function getUseCase()
+    public function removeUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases)
     {
-        return $this->useCase;
+        $this->useCases->removeElement($useCases);
+    }
+
+    /**
+     * Get useCases
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUseCases()
+    {
+        return $this->useCases;
     }
 }

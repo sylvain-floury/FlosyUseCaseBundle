@@ -37,10 +37,10 @@ class Actor
     
     /**
      *
-     * @ORM\ManyToOne(targetEntity="UseCase", inversedBy="actors")
-     * @ORM\JoinColumn(name="use_case_id", referencedColumnName="id")
+     * @ORM\ManyToMany(targetEntity="UseCase", inversedBy="actors")
+     * @ORM\JoinTable(name="users_groups")
      */
-    protected $useCase;
+    protected $useCases;
 
 
     /**

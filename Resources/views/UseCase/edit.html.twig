@@ -1,22 +1,31 @@
-<h1>UseCase edit</h1>
+{% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
-<form action="{{ path('usecase_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
+{% block title %}
+{{ 'views.usecase.edit.title'|trans({'%usecase%': entity.title}, 'FlosyUseCaseBundle') }}
+{% endblock %}
+
+{% block page %}
+
+<h1>{{ 'views.usecase.edit.title'|trans({'%usecase%': entity.title}, 'FlosyUseCaseBundle') }}</h1>
+
+<form class="well" action="{{ path('usecase_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
     <p>
-        <button type="submit">Edit</button>
+        <button type="submit" class="btn btn-success">{{ 'views.common.actions.update'|trans({}, 'FlosyUseCaseBundle') }}</button>
     </p>
 </form>
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('usecase') }}">
-            Back to the list
+<div>
+    <div class="float-left">
+        <a class="btn" href="{{ path('usecase') }}">
+            {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
-    </li>
-    <li>
+    </div>
+    <div class="float-left">
         <form action="{{ path('usecase_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.usecase.edit.confirm_delete'|trans({}, 'FlosyUseCaseBundle') }}');">{{ 'views.common.actions.delete'|trans({}, 'FlosyUseCaseBundle') }}</button>
         </form>
-    </li>
-</ul>
+    </div>
+</div>
+{% endblock %}

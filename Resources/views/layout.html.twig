@@ -1,38 +1,52 @@
-{% extends '::base.html.twig' %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-{% block body %}
+    <!-- Le styles -->
+    <link href="{{ asset('bundles/flosyusecase/css/bootstrap.css') }}" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+        }
+    </style>
+    <link href="{{ asset('bundles/jordillonchcrudgenerator/css/bootstrap-responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/jordillonchcrudgenerator/css/crud.css') }}" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Le fav and touch icons -->
+    <link rel="shortcut icon" href="{{ asset('bundles/jordillonchcrudgenerator/images/favicon.ico') }}">
+</head>
+
+<body>
+
+<div class="container">
+    {% block menu %}{% endblock %}
+
+    {% for type, flashMessages in app.session.flashbag.all() %}
+        {% for flashMessage in flashMessages %}
+            <div class="alert alert-{{ type }}">
+                {{ flashMessage|trans({}, 'FlosyUseCaseBundle') }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
+    {% block page %}{% endblock %}
+
+</div>
 
 
-{% block nav %}
-   <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a class="brand" href="#">UseCaseBundle</a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li class="active"><a href="{{ path('use_case') }}">Home</a></li>
-              <li><a href="{{ path('use_case_project') }}">Project</a></li>
-              <li><a href="">Scenario</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-{% endblock nav %}
+<script src="{{ asset('bundles/jordillonchcrudgenerator/js/jquery.min.js') }}"></script>
+<script src="{{ asset('bundles/flosyusecase/js/bootstrap.js') }}"></script>
 
-    <div class="container">
-{% block title %}
-    <h1>Title</h1>
-{% endblock title %}
-
-{% block content %}
-    content
-{% endblock content %}
-    </div>
-
-{% endblock body %}
+{% block javascript %}{% endblock %}
+</body>
+</html>

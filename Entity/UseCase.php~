@@ -44,8 +44,13 @@ class UseCase
     private $precondition;
     
     /**
-     *
-     * @ORM\OneToMany(targetEntity="Actor", mappedBy="userCase") 
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="usecases")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     **/
+    private $project;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="Actor", mappedBy="useCases")
      */
     protected $actors;
     

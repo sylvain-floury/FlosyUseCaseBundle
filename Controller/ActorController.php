@@ -11,21 +11,21 @@ use Pagerfanta\Pagerfanta;
 use Pagerfanta\Adapter\DoctrineORMAdapter;
 use Pagerfanta\View\TwitterBootstrapView;
 
-use Flosy\Bundle\UseCaseBundle\Entity\Project;
-use Flosy\Bundle\UseCaseBundle\Form\ProjectType;
-use Flosy\Bundle\UseCaseBundle\Form\ProjectFilterType;
+use Flosy\Bundle\UseCaseBundle\Entity\Actor;
+use Flosy\Bundle\UseCaseBundle\Form\ActorType;
+use Flosy\Bundle\UseCaseBundle\Form\ActorFilterType;
 
 /**
- * Project controller.
+ * Actor controller.
  *
- * @Route("/project")
+ * @Route("/actor")
  */
-class ProjectController extends Controller
+class ActorController extends Controller
 {
     /**
-     * Lists all Project entities.
+     * Lists all Actor entities.
      *
-     * @Route("/", name="project")
+     * @Route("/", name="actor")
      * @Method("GET")
      * @Template()
      */
@@ -50,17 +50,17 @@ class ProjectController extends Controller
     {
         $request = $this->getRequest();
         $session = $request->getSession();
-        $filterForm = $this->createForm(new ProjectFilterType());
+        $filterForm = $this->createForm(new ActorFilterType());
         $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('FlosyUseCaseBundle:Project')->createQueryBuilder('e');
+        $queryBuilder = $em->getRepository('FlosyUseCaseBundle:Actor')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->getMethod() == 'GET' && $request->get('filter_action') == 'reset') {
-            $session->remove('ProjectControllerFilter');
+        if ($request->getMethod() == 'POST' && $request->get('filter_action') == 'reset') {
+            $session->remove('ActorControllerFilter');
         }
 
         // Filter action
-        if ($request->getMethod() == 'GET' && $request->get('filter_action') == 'filter') {
+        if ($request->getMethod() == 'POST' && $request->get('filter_action') == 'filter') {
             // Bind values from the request
             $filterForm->bind($request);
 
@@ -69,13 +69,13 @@ class ProjectController extends Controller
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
                 // Save filter to session
                 $filterData = $filterForm->getData();
-                $session->set('ProjectControllerFilter', $filterData);
+                $session->set('ActorControllerFilter', $filterData);
             }
         } else {
             // Get filter from session
-            if ($session->has('ProjectControllerFilter')) {
-                $filterData = $session->get('ProjectControllerFilter');
-                $filterForm = $this->createForm(new ProjectFilterType(), $filterData);
+            if ($session->has('ActorControllerFilter')) {
+                $filterData = $session->get('ActorControllerFilter');
+                $filterForm = $this->createForm(new ActorFilterType(), $filterData);
                 $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
             }
         }
@@ -100,7 +100,7 @@ class ProjectController extends Controller
         $me = $this;
         $routeGenerator = function($page) use ($me)
         {
-            return $me->generateUrl('project', array('page' => $page));
+            return $me->generateUrl('actor', array('page' => $page));
         };
 
         // Paginator - view
@@ -116,16 +116,16 @@ class ProjectController extends Controller
     }
 
     /**
-     * Creates a new Project entity.
+     * Creates a new Actor entity.
      *
-     * @Route("/", name="project_create")
+     * @Route("/", name="actor_create")
      * @Method("POST")
-     * @Template("FlosyUseCaseBundle:Project:new.html.twig")
+     * @Template("FlosyUseCaseBundle:Actor:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity  = new Project();
-        $form = $this->createForm(new ProjectType(), $entity);
+        $entity  = new Actor();
+        $form = $this->createForm(new ActorType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
@@ -134,7 +134,7 @@ class ProjectController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
-            return $this->redirect($this->generateUrl('project_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('actor_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -144,16 +144,16 @@ class ProjectController extends Controller
     }
 
     /**
-     * Displays a form to create a new Project entity.
+     * Displays a form to create a new Actor entity.
      *
-     * @Route("/new", name="project_new")
+     * @Route("/new", name="actor_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Project();
-        $form   = $this->createForm(new ProjectType(), $entity);
+        $entity = new Actor();
+        $form   = $this->createForm(new ActorType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -162,9 +162,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Finds and displays a Project entity.
+     * Finds and displays a Actor entity.
      *
-     * @Route("/{id}", name="project_show")
+     * @Route("/{id}", name="actor_show")
      * @Method("GET")
      * @Template()
      */
@@ -172,10 +172,10 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+        $entity = $em->getRepository('FlosyUseCaseBundle:Actor')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
+            throw $this->createNotFoundException('Unable to find Actor entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -187,9 +187,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Project entity.
+     * Displays a form to edit an existing Actor entity.
      *
-     * @Route("/{id}/edit", name="project_edit")
+     * @Route("/{id}/edit", name="actor_edit")
      * @Method("GET")
      * @Template()
      */
@@ -197,13 +197,13 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+        $entity = $em->getRepository('FlosyUseCaseBundle:Actor')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
+            throw $this->createNotFoundException('Unable to find Actor entity.');
         }
 
-        $editForm = $this->createForm(new ProjectType(), $entity);
+        $editForm = $this->createForm(new ActorType(), $entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -214,24 +214,24 @@ class ProjectController extends Controller
     }
 
     /**
-     * Edits an existing Project entity.
+     * Edits an existing Actor entity.
      *
-     * @Route("/{id}", name="project_update")
+     * @Route("/{id}", name="actor_update")
      * @Method("PUT")
-     * @Template("FlosyUseCaseBundle:Project:edit.html.twig")
+     * @Template("FlosyUseCaseBundle:Actor:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+        $entity = $em->getRepository('FlosyUseCaseBundle:Actor')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
+            throw $this->createNotFoundException('Unable to find Actor entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ProjectType(), $entity);
+        $editForm = $this->createForm(new ActorType(), $entity);
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
@@ -239,7 +239,7 @@ class ProjectController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
 
-            return $this->redirect($this->generateUrl('project_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('actor_edit', array('id' => $id)));
         } else {
             $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
         }
@@ -252,9 +252,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Deletes a Project entity.
+     * Deletes a Actor entity.
      *
-     * @Route("/{id}", name="project_delete")
+     * @Route("/{id}", name="actor_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -264,10 +264,10 @@ class ProjectController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+            $entity = $em->getRepository('FlosyUseCaseBundle:Actor')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Project entity.');
+                throw $this->createNotFoundException('Unable to find Actor entity.');
             }
 
             $em->remove($entity);
@@ -277,11 +277,11 @@ class ProjectController extends Controller
             $this->get('session')->getFlashBag()->add('error', 'flash.delete.error');
         }
 
-        return $this->redirect($this->generateUrl('project'));
+        return $this->redirect($this->generateUrl('actor'));
     }
 
     /**
-     * Creates a form to delete a Project entity by id.
+     * Creates a form to delete a Actor entity by id.
      *
      * @param mixed $id The entity id
      *

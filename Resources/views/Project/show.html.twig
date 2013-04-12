@@ -1,45 +1,58 @@
-<h1>Project</h1>
+{% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
-<table class="record_properties">
-    <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ entity.id }}</td>
-        </tr>
-        <tr>
-            <th>Name</th>
-            <td>{{ entity.name }}</td>
-        </tr>
-        <tr>
-            <th>Description</th>
-            <td>{{ entity.description }}</td>
-        </tr>
-        <tr>
-            <th>Created</th>
-            <td>{{ entity.created|date('Y-m-d H:i:s') }}</td>
-        </tr>
-        <tr>
-            <th>Updated</th>
-            <td>{{ entity.updated|date('Y-m-d H:i:s') }}</td>
-        </tr>
-    </tbody>
-</table>
+{% block title %}
+{{ 'entities.project.name'|trans({}, 'FlosyUseCaseBundle') }}
+{% endblock %}
 
-<ul class="record_actions">
-    <li>
-        <a href="{{ path('use_case_project') }}">
-            Back to the list
+{% block page %}
+
+<h1>{{ 'entities.project.name'|trans({}, 'FlosyUseCaseBundle') }}</h1>
+
+<form class="form-horizontal">
+    <fieldset>        
+        <div class="control-group">
+            <label class="control-label">{{ 'entities.project.attr.name'|trans({}, 'FlosyUseCaseBundle') }}</label>
+            <div class="controls">                
+                <span class="input-xlarge uneditable-input">{{ entity.name }}</span>            
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">{{ 'entities.project.attr.description'|trans({}, 'FlosyUseCaseBundle') }}</label>
+            <div class="controls">                
+                <span class="input-xlarge uneditable-input">{{ entity.description }}</span>            
+            </div>
+        </div>        
+        <div class="control-group">
+            <label class="control-label">{{ 'entities.project.attr.created'|trans({}, 'FlosyUseCaseBundle') }}</label>
+            <div class="controls">                
+                <span class="input-xlarge uneditable-input">{{ entity.created|date('Y-m-d H:i:s') }}</span>            
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">{{ 'entities.project.attr.updated'|trans({}, 'FlosyUseCaseBundle') }}</label>
+            <div class="controls">                
+                <span class="input-xlarge uneditable-input">{{ entity.updated|date('Y-m-d H:i:s') }}</span>            
+            </div>
+        </div>    
+    </fieldset>
+</form>
+
+<div>
+    <div class="float-left">
+        <a class="btn" href="{{ path('project') }}">
+            {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
-    </li>
-    <li>
-        <a href="{{ path('use_case_project_edit', { 'id': entity.id }) }}">
-            Edit
+    </div>
+    <div class="float-left">
+        <a class="btn btn-primary" href="{{ path('project_edit', { 'id': entity.id }) }}">
+            {{ 'views.common.actions.edit'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
-    </li>
-    <li>
-        <form action="{{ path('use_case_project_delete', { 'id': entity.id }) }}" method="post">
+    </div>
+    <div class="float-left">
+        <form action="{{ path('project_delete', { 'id': entity.id }) }}" method="post">
             {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
+            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.project.edit.confirm_delete'|trans({}, 'FlosyUseCaseBundle') }}');">{{ 'views.common.actions.delete'|trans({}, 'FlosyUseCaseBundle') }}</button>
         </form>
-    </li>
-</ul>
+    </div>
+</div>
+{% endblock %}

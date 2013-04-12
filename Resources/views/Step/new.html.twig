@@ -1,14 +1,14 @@
 {% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
 {% block title %}
-{{ 'views.usecase.new.title'|trans({}, 'FlosyUseCaseBundle') }}
+{{ 'views.step.new.title'|trans({}, 'FlosyUseCaseBundle') }}
 {% endblock %}
 
 {% block page %}
 
-<h1>{{ 'views.usecase.new.title'|trans({}, 'FlosyUseCaseBundle') }}</h1>
+<h1>{{ 'views.step.new.title'|trans({}, 'FlosyUseCaseBundle') }}</h1>
 
-<form class="well" action="{{ path('usecase_create') }}" method="post" {{ form_enctype(form) }}>
+<form class="well" action="{{ path('step_create') }}" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
     <p>
         <button type="submit" class="btn btn-success">{{ 'views.common.actions.create'|trans({}, 'FlosyUseCaseBundle') }}</button>
@@ -17,7 +17,7 @@
 
 <div>
     <div class="float-left">
-        <a class="btn" href="{{ path('usecase') }}">
+        <a class="btn" href="{{ path('step') }}">
             {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
     </div>
