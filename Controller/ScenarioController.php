@@ -146,11 +146,11 @@ class ScenarioController extends Controller
     /**
      * Displays a form to create a new Scenario entity.
      *
-     * @Route("/new", name="scenario_new")
+     * @Route("/new/{usecaseId}", name="scenario_new", requirements={"usecaseId" = "\d+"}, defaults={"usecaseId" = null})
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($usecaseId)
     {
         $entity = new Scenario();
         $form   = $this->createForm(new ScenarioType(), $entity);

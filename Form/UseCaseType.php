@@ -12,14 +12,16 @@ class UseCaseType extends AbstractType
     {
         $builder
             ->add('project', 'entity', array(
-                'class' => 'FlosyUseCaseBundle:Project'
+                'class' => 'FlosyUseCaseBundle:Project',
+                'empty_value'   => 'Choose a project'
             ))
             ->add('title')
             ->add('aim', 'textarea', array(
-                'max_length' => 500 
+                'max_length'    => 500 
             ))
             ->add('precondition', 'textarea', array(
-                'max_length' => 500 
+                'max_length'    => 500,
+                'required'      => FALSE,
             ))
         ;
     }

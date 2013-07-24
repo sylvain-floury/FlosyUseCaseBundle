@@ -146,18 +146,27 @@ class UseCaseController extends Controller
     /**
      * Displays a form to create a new UseCase entity.
      *
-     * @Route("/new", name="usecase_new")
+     * @Route("/new/{projectId}", name="usecase_new", requirements={"projectId" = "\d+"}, defaults={"projectId" = null})
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($projectId)
     {
         $entity = new UseCase();
+        // Select parent project if it exists.
+        if(NULL !== $projectId)
+        {
+            $entity->setProject($this->getDoctrine()->getRepository('FlosyUseCaseBundle:Project')->find($projectId));
+        }
+        
         $form   = $this->createForm(new UseCaseType(), $entity);
+        
+        $uriListPath = $uriListPath = $this->getRequest()->headers->get('referer', $this->get('router')->generate('usecase'));
 
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'uriListPath' => $uriListPath,
         );
     }
 

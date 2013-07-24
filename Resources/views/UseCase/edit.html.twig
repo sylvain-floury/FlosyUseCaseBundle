@@ -18,7 +18,7 @@
 
 <div>
     <div class="float-left">
-        <a class="btn" href="{{ path('usecase') }}">
+        <a class="btn" href="{{ path('project_show', { 'id': entity.project.id}) }}">
             {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
     </div>

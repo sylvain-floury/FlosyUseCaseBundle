@@ -34,6 +34,7 @@ views:
       confirm_delete: "Souhaitez-vous supprimer le projet ?"
     new:
       title: "Ajouter un nouveau projet"
+    new_usecase: "Ajouter un cas d'utilisation"
   scenario:
     index:
       createnew: "Ajouter un scenario"
@@ -104,3 +105,4 @@ flash:
     success: "Modification effectuée."
     error: "Erreur lors de la modification."
     
+'Choose a project': Choisir un projet

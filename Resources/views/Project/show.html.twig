@@ -84,5 +84,10 @@
             <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.project.edit.confirm_delete'|trans({}, 'FlosyUseCaseBundle') }}');">{{ 'views.common.actions.delete'|trans({}, 'FlosyUseCaseBundle') }}</button>
         </form>
     </div>
+    <div class="span8">
+        <a class="btn btn-primary likepaginator" href="{{ path('usecase_new', { 'projectId': entity.id }) }}">
+            {{ 'views.project.new_usecase'|trans({}, 'FlosyUseCaseBundle') }}
+        </a>
+    </div>
 </div>
 {% endblock %}
