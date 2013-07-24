@@ -55,12 +55,12 @@ class UseCaseController extends Controller
         $queryBuilder = $em->getRepository('FlosyUseCaseBundle:UseCase')->createQueryBuilder('e');
 
         // Reset filter
-        if ($request->getMethod() == 'POST' && $request->get('filter_action') == 'reset') {
+        if ($request->get('filter_action') == 'reset') {
             $session->remove('UseCaseControllerFilter');
         }
 
         // Filter action
-        if ($request->getMethod() == 'POST' && $request->get('filter_action') == 'filter') {
+        if ($request->get('filter_action') == 'filter') {
             // Bind values from the request
             $filterForm->bind($request);
 

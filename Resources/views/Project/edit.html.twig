@@ -24,6 +24,7 @@
     </div>
     <div class="float-left">
         <form action="{{ path('project_delete', { 'id': entity.id }) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE" />
             {{ form_widget(delete_form) }}
             <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.project.edit.confirm_delete'|trans({}, 'FlosyUseCaseBundle') }}');">{{ 'views.common.actions.delete'|trans({}, 'FlosyUseCaseBundle') }}</button>
         </form>

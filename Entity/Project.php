@@ -38,7 +38,7 @@ class Project
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="UseCase", mappedBy="project")
+     * @ORM\OneToMany(targetEntity="UseCase", mappedBy="project", cascade={"all"})
      */
     private $useCases;
 

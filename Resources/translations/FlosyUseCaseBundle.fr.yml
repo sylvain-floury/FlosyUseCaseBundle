@@ -97,8 +97,10 @@ entities:
 flash:
   create:
     success: "Création effectuée."
-    error: "Erreur lors de la création"
+    error: "Erreur lors de la création."
+  delete:
+    success: "Suppression effectuée."
   update:
     success: "Modification effectuée."
-    error: "Erreur lors de la modification"
+    error: "Erreur lors de la modification."
     

@@ -14,6 +14,11 @@ class UseCaseFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            /*->add('project', 'filter_entity',  array(
+                    'class' => 'FlosyUseCaseBundle:Project',
+                    'property' => 'name'
+                    )
+                )*/
             ->add('title', 'filter_text')
             ->add('aim', 'filter_text')
             ->add('precondition', 'filter_text')
