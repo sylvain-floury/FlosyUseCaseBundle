@@ -153,11 +153,22 @@ class ScenarioController extends Controller
     public function newAction($usecaseId)
     {
         $entity = new Scenario();
-        $form   = $this->createForm(new ScenarioType(), $entity);
+        $options = array();
+        
+        if(NULL !== $usecaseId)
+        {
+            $usecase = $this->getDoctrine()->getManager()->getRepository('FlosyUseCaseBundle:UseCase')->find($usecaseId);
+            $options['project'] = (NULL !== $usecase)?$usecase->getProject():NULL;
+        }
+        
+        $form   = $this->createForm(new ScenarioType(), $entity, $options);
+        
+        $uriListPath = $uriListPath = $this->getRequest()->headers->get('referer', $this->get('router')->generate('scenario'));
 
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'uriListPath' => $uriListPath,
         );
     }
 

@@ -146,18 +146,29 @@ class StepController extends Controller
     /**
      * Displays a form to create a new Step entity.
      *
-     * @Route("/new", name="step_new")
+     * @Route("/new/{scenarioId}", name="step_new", requirements={"scenarioId" = "\d+"}, defaults={"scenarioId" = null})
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($scenarioId)
     {
         $entity = new Step();
-        $form   = $this->createForm(new StepType(), $entity);
+        $options = array();
+        
+        if(NULL !== $scenarioId)
+        {
+            $scenario = $this->getDoctrine()->getManager()->getRepository('FlosyUseCaseBundle:Scenario')->find($scenarioId);
+            $options['usecase'] = (NULL !== $scenario)?$scenario->getUseCase():NULL;
+        }
+        
+        $form   = $this->createForm(new StepType(), $entity, $options);
+        
+        $uriListPath = $uriListPath = $this->getRequest()->headers->get('referer', $this->get('router')->generate('step'));
 
         return array(
             'entity' => $entity,
             'form'   => $form->createView(),
+            'uriListPath' => $uriListPath,
         );
     }
 

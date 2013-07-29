@@ -1,12 +1,12 @@
 {% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
 {% block title %}
-{{ 'views.step.edit.title'|trans({'%actor%': entity.name}, 'FlosyUseCaseBundle') }}
+{{ 'views.step.edit.title'|trans({'%step%': entity.position}, 'FlosyUseCaseBundle') }}
 {% endblock %}
 
 {% block page %}
 
-<h1>{{ 'views.step.edit.title'|trans({'%actor%': entity.name}, 'FlosyUseCaseBundle') }}</h1>
+<h1>{{ 'views.step.edit.title'|trans({'%step%': entity.position}, 'FlosyUseCaseBundle') }}</h1>
 
 <form class="well" action="{{ path('step_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
     {{ form_widget(edit_form) }}
@@ -17,7 +17,7 @@
 
 <div>
     <div class="float-left">
-        <a class="btn" href="{{ path('step') }}">
+        <a class="btn" href="{{ path('scenario_show', { 'id': entity.scenario.id}) }}">
             {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
         </a>
     </div>

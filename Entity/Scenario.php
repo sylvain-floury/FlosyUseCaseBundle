@@ -166,4 +166,9 @@ class Scenario
     {
         return $this->type;
     }
+    
+    public function __toString() 
+    {
+        return $this->name;
+    }
 }
