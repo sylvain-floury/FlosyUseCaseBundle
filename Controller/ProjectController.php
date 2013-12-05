@@ -7,13 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Pagerfanta\Pagerfanta;
-use Pagerfanta\Adapter\DoctrineORMAdapter;
-use Pagerfanta\View\TwitterBootstrapView;
-
 use Flosy\Bundle\UseCaseBundle\Entity\Project;
 use Flosy\Bundle\UseCaseBundle\Form\ProjectType;
-use Flosy\Bundle\UseCaseBundle\Form\ProjectFilterType;
 
 /**
  * Project controller.
@@ -22,6 +17,7 @@ use Flosy\Bundle\UseCaseBundle\Form\ProjectFilterType;
  */
 class ProjectController extends Controller
 {
+
     /**
      * Lists all Project entities.
      *
@@ -31,90 +27,14 @@ class ProjectController extends Controller
      */
     public function indexAction()
     {
-        list($filterForm, $queryBuilder) = $this->filter();
+        $em = $this->getDoctrine()->getManager();
 
-        list($entities, $pagerHtml) = $this->paginator($queryBuilder);
+        $entities = $em->getRepository('FlosyUseCaseBundle:Project')->findAll();
 
         return array(
             'entities' => $entities,
-            'pagerHtml' => $pagerHtml,
-            'filterForm' => $filterForm->createView(),
         );
     }
-
-    /**
-    * Create filter form and process filter request.
-    *
-    */
-    protected function filter()
-    {
-        $request = $this->getRequest();
-        $session = $request->getSession();
-        $filterForm = $this->createForm(new ProjectFilterType());
-        $em = $this->getDoctrine()->getManager();
-        $queryBuilder = $em->getRepository('FlosyUseCaseBundle:Project')->createQueryBuilder('e');
-
-        // Reset filter
-        if ($request->getMethod() == 'GET' && $request->get('filter_action') == 'reset') {
-            $session->remove('ProjectControllerFilter');
-        }
-
-        // Filter action
-        if ($request->getMethod() == 'GET' && $request->get('filter_action') == 'filter') {
-            // Bind values from the request
-            $filterForm->bind($request);
-
-            if ($filterForm->isValid()) {
-                // Build the query from the given form object
-                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
-                // Save filter to session
-                $filterData = $filterForm->getData();
-                $session->set('ProjectControllerFilter', $filterData);
-            }
-        } else {
-            // Get filter from session
-            if ($session->has('ProjectControllerFilter')) {
-                $filterData = $session->get('ProjectControllerFilter');
-                $filterForm = $this->createForm(new ProjectFilterType(), $filterData);
-                $this->get('lexik_form_filter.query_builder_updater')->addFilterConditions($filterForm, $queryBuilder);
-            }
-        }
-
-        return array($filterForm, $queryBuilder);
-    }
-
-    /**
-    * Get results from paginator and get paginator view.
-    *
-    */
-    protected function paginator($queryBuilder)
-    {
-        // Paginator
-        $adapter = new DoctrineORMAdapter($queryBuilder);
-        $pagerfanta = new Pagerfanta($adapter);
-        $currentPage = $this->getRequest()->get('page', 1);
-        $pagerfanta->setCurrentPage($currentPage);
-        $entities = $pagerfanta->getCurrentPageResults();
-
-        // Paginator - route generator
-        $me = $this;
-        $routeGenerator = function($page) use ($me)
-        {
-            return $me->generateUrl('project', array('page' => $page));
-        };
-
-        // Paginator - view
-        $translator = $this->get('translator');
-        $view = new TwitterBootstrapView();
-        $pagerHtml = $view->render($pagerfanta, $routeGenerator, array(
-            'proximity' => 3,
-            'prev_message' => $translator->trans('views.common.pager.previous', array(), 'FlosyUseCaseBundle'),
-            'next_message' => $translator->trans('views.common.pager.next', array(), 'FlosyUseCaseBundle'),
-        ));
-
-        return array($entities, $pagerHtml);
-    }
-
     /**
      * Creates a new Project entity.
      *
@@ -124,15 +44,14 @@ class ProjectController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new Project();
-        $form = $this->createForm(new ProjectType(), $entity);
-        $form->bind($request);
+        $entity = new Project();
+        $form = $this->createCreateForm($entity);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.create.success');
 
             return $this->redirect($this->generateUrl('project_show', array('id' => $entity->getId())));
         }
@@ -141,6 +60,23 @@ class ProjectController extends Controller
             'entity' => $entity,
             'form'   => $form->createView(),
         );
+    }
+
+    /**
+    * Creates a form to create a Project entity.
+    *
+    * @param Project $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createCreateForm(Project $entity)
+    {
+        $form = $this->createForm(new ProjectType(), $entity, array(
+            'action' => $this->generateUrl('project_create'),
+            'method' => 'POST',
+        ));
+
+        return $form;
     }
 
     /**
@@ -153,7 +89,7 @@ class ProjectController extends Controller
     public function newAction()
     {
         $entity = new Project();
-        $form   = $this->createForm(new ProjectType(), $entity);
+        $form   = $this->createCreateForm($entity);
 
         return array(
             'entity' => $entity,
@@ -177,7 +113,7 @@ class ProjectController extends Controller
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
-        
+
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -203,7 +139,7 @@ class ProjectController extends Controller
             throw $this->createNotFoundException('Unable to find Project entity.');
         }
 
-        $editForm = $this->createForm(new ProjectType(), $entity);
+        $editForm = $this->createEditForm($entity);
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
@@ -213,6 +149,24 @@ class ProjectController extends Controller
         );
     }
 
+    /**
+    * Creates a form to edit a Project entity.
+    *
+    * @param Project $entity The entity
+    *
+    * @return \Symfony\Component\Form\Form The form
+    */
+    private function createEditForm(Project $entity)
+    {
+        $form = $this->createForm(new ProjectType(), $entity, array(
+            'action' => $this->generateUrl('project_update', array('id' => $entity->getId())),
+            'method' => 'PUT',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
+
+        return $form;
+    }
     /**
      * Edits an existing Project entity.
      *
@@ -231,17 +185,13 @@ class ProjectController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new ProjectType(), $entity);
-        $editForm->bind($request);
+        $editForm = $this->createEditForm($entity);
+        $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.update.success');
 
             return $this->redirect($this->generateUrl('project_edit', array('id' => $id)));
-        } else {
-            $this->get('session')->getFlashBag()->add('error', 'flash.update.error');
         }
 
         return array(
@@ -250,7 +200,6 @@ class ProjectController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
-
     /**
      * Deletes a Project entity.
      *
@@ -260,7 +209,7 @@ class ProjectController extends Controller
     public function deleteAction(Request $request, $id)
     {
         $form = $this->createDeleteForm($id);
-        $form->bind($request);
+        $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
@@ -272,9 +221,6 @@ class ProjectController extends Controller
 
             $em->remove($entity);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'flash.delete.success');
-        } else {
-            $this->get('session')->getFlashBag()->add('error', 'flash.delete.error');
         }
 
         return $this->redirect($this->generateUrl('project'));
@@ -285,12 +231,14 @@ class ProjectController extends Controller
      *
      * @param mixed $id The entity id
      *
-     * @return Symfony\Component\Form\Form The form
+     * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
-            ->add('id', 'hidden')
+        return $this->createFormBuilder()
+            ->setAction($this->generateUrl('project_delete', array('id' => $id)))
+            ->setMethod('DELETE')
+            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }

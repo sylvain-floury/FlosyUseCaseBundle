@@ -1,33 +1,16 @@
-{% extends 'FlosyUseCaseBundle::layout.html.twig' %}
+{% extends '::base.html.twig' %}
 
-{% block title %}
-{{ 'views.project.edit.title'|trans({'%project%': entity.name}, 'FlosyUseCaseBundle') }}
-{% endblock %}
+{% block body -%}
+    <h1>Project edit</h1>
 
-{% block page %}
+    {{ form(edit_form) }}
 
-<h1>{{ 'views.project.edit.title'|trans({'%project%': entity.name}, 'FlosyUseCaseBundle') }}</h1>
-
-<form class="well" action="{{ path('project_update', { 'id': entity.id }) }}" method="post" {{ form_enctype(edit_form) }}>
-    <input type="hidden" name="_method" value="PUT" />
-    {{ form_widget(edit_form) }}
-    <p>
-        <button type="submit" class="btn btn-success">{{ 'views.common.actions.update'|trans({}, 'FlosyUseCaseBundle') }}</button>
-    </p>
-</form>
-
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('project') }}">
-            {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path('project') }}">
+            Back to the list
         </a>
-    </div>
-    <div class="float-left">
-        <form action="{{ path('project_delete', { 'id': entity.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button class="btn btn-danger" type="submit" onclick="return confirm('{{ 'views.project.edit.confirm_delete'|trans({}, 'FlosyUseCaseBundle') }}');">{{ 'views.common.actions.delete'|trans({}, 'FlosyUseCaseBundle') }}</button>
-        </form>
-    </div>
-</div>
+    </li>
+    <li>{{ form(delete_form) }}</li>
+</ul>
 {% endblock %}

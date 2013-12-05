@@ -1,25 +1,27 @@
 {% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
-{% block title %}
-{{ 'views.project.new.title'|trans({}, 'FlosyUseCaseBundle') }}
-{% endblock %}
+{% block container -%}
+    <h1>Project creation</h1>
 
-{% block page %}
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
 
-<h1>{{ 'views.project.new.title'|trans({}, 'FlosyUseCaseBundle') }}</h1>
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_errors(form.name) }}
+            {{ form_widget(form.name, { 'attr': {'class': 'form-control'} }) }}
+        </div>
 
-<form class="well" action="{{ path('project_create') }}" method="post" {{ form_enctype(form) }}>
-    {{ form_widget(form) }}
-    <p>
-        <button type="submit" class="btn btn-success">{{ 'views.common.actions.create'|trans({}, 'FlosyUseCaseBundle') }}</button>
-    </p>
-</form>
+        <div class="form-group">
+            {{ form_label(form.description) }}
+            {{ form_errors(form.description) }}
+            {{ form_widget(form.description, { 'attr': {'class': 'form-control'} }) }}
+        </div>
 
-<div>
-    <div class="float-left">
-        <a class="btn" href="{{ path('project') }}">
-            {{ 'views.common.actions.back_to_list'|trans({}, 'FlosyUseCaseBundle') }}
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <a href="{{ path('project') }}" class="btn btn-default">
+            Back to the list
         </a>
-    </div>
-</div>
+
+    {{ form_end(form) }}
 {% endblock %}
