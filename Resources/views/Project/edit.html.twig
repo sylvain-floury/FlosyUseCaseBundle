@@ -1,16 +1,10 @@
-{% extends '::base.html.twig' %}
+{% extends 'FlosyUseCaseBundle::layout.html.twig' %}
 
-{% block body -%}
+{% block container -%}
     <h1>Project edit</h1>
 
-    {{ form(edit_form) }}
-
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('project') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
+    {% include 'FlosyUseCaseBundle:Project:_form.html.twig' %}
+    
+    
+    {{ form(delete_form) }}
 {% endblock %}

@@ -7,21 +7,21 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Flosy\Bundle\UseCaseBundle\Entity\Project;
-use Flosy\Bundle\UseCaseBundle\Form\ProjectType;
+use Flosy\Bundle\UseCaseBundle\Entity\UseCase;
+use Flosy\Bundle\UseCaseBundle\Form\UseCaseType;
 
 /**
- * Project controller.
+ * UseCase controller.
  *
- * @Route("/project")
+ * @Route("/usecase")
  */
-class ProjectController extends Controller
+class UseCaseController extends Controller
 {
 
     /**
-     * Lists all Project entities.
+     * Lists all UseCase entities.
      *
-     * @Route("/", name="project")
+     * @Route("/", name="usecase")
      * @Method("GET")
      * @Template()
      */
@@ -29,22 +29,22 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('FlosyUseCaseBundle:Project')->findAll();
+        $entities = $em->getRepository('FlosyUseCaseBundle:UseCase')->findAll();
 
         return array(
             'entities' => $entities,
         );
     }
     /**
-     * Creates a new Project entity.
+     * Creates a new UseCase entity.
      *
-     * @Route("/", name="project_create")
+     * @Route("/", name="usecase_create")
      * @Method("POST")
-     * @Template("FlosyUseCaseBundle:Project:new.html.twig")
+     * @Template("FlosyUseCaseBundle:UseCase:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Project();
+        $entity = new UseCase();
         $form = $this->createCreateForm($entity);
         $form->handleRequest($request);
 
@@ -53,7 +53,7 @@ class ProjectController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('project_edit', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('usecase_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -63,32 +63,34 @@ class ProjectController extends Controller
     }
 
     /**
-    * Creates a form to create a Project entity.
+    * Creates a form to create a UseCase entity.
     *
-    * @param Project $entity The entity
+    * @param UseCase $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createCreateForm(Project $entity)
+    private function createCreateForm(UseCase $entity)
     {
-        $form = $this->createForm(new ProjectType(), $entity, array(
-            'action' => $this->generateUrl('project_create'),
+        $form = $this->createForm(new UseCaseType(), $entity, array(
+            'action' => $this->generateUrl('usecase_create'),
             'method' => 'POST',
         ));
+
+        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
 
     /**
-     * Displays a form to create a new Project entity.
+     * Displays a form to create a new UseCase entity.
      *
-     * @Route("/new", name="project_new")
+     * @Route("/new", name="usecase_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Project();
+        $entity = new UseCase();
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -98,9 +100,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Finds and displays a Project entity.
+     * Finds and displays a UseCase entity.
      *
-     * @Route("/{id}", name="project_show")
+     * @Route("/{id}", name="usecase_show")
      * @Method("GET")
      * @Template()
      */
@@ -108,10 +110,10 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+        $entity = $em->getRepository('FlosyUseCaseBundle:UseCase')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
+            throw $this->createNotFoundException('Unable to find UseCase entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -123,9 +125,9 @@ class ProjectController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Project entity.
+     * Displays a form to edit an existing UseCase entity.
      *
-     * @Route("/{id}/edit", name="project_edit")
+     * @Route("/{id}/edit", name="usecase_edit")
      * @Method("GET")
      * @Template()
      */
@@ -133,10 +135,10 @@ class ProjectController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+        $entity = $em->getRepository('FlosyUseCaseBundle:UseCase')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
+            throw $this->createNotFoundException('Unable to find UseCase entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -144,42 +146,44 @@ class ProjectController extends Controller
 
         return array(
             'entity'      => $entity,
-            'form'   => $editForm->createView(),
+            'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-    * Creates a form to edit a Project entity.
+    * Creates a form to edit a UseCase entity.
     *
-    * @param Project $entity The entity
+    * @param UseCase $entity The entity
     *
     * @return \Symfony\Component\Form\Form The form
     */
-    private function createEditForm(Project $entity)
+    private function createEditForm(UseCase $entity)
     {
-        $form = $this->createForm(new ProjectType(), $entity, array(
-            'action' => $this->generateUrl('project_update', array('id' => $entity->getId())),
+        $form = $this->createForm(new UseCaseType(), $entity, array(
+            'action' => $this->generateUrl('usecase_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
+
+        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
     /**
-     * Edits an existing Project entity.
+     * Edits an existing UseCase entity.
      *
-     * @Route("/{id}", name="project_update")
+     * @Route("/{id}", name="usecase_update")
      * @Method("PUT")
-     * @Template("FlosyUseCaseBundle:Project:edit.html.twig")
+     * @Template("FlosyUseCaseBundle:UseCase:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+        $entity = $em->getRepository('FlosyUseCaseBundle:UseCase')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Project entity.');
+            throw $this->createNotFoundException('Unable to find UseCase entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -189,7 +193,7 @@ class ProjectController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('project_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('usecase_edit', array('id' => $id)));
         }
 
         return array(
@@ -199,9 +203,9 @@ class ProjectController extends Controller
         );
     }
     /**
-     * Deletes a Project entity.
+     * Deletes a UseCase entity.
      *
-     * @Route("/{id}", name="project_delete")
+     * @Route("/{id}", name="usecase_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -211,21 +215,21 @@ class ProjectController extends Controller
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('FlosyUseCaseBundle:Project')->find($id);
+            $entity = $em->getRepository('FlosyUseCaseBundle:UseCase')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Project entity.');
+                throw $this->createNotFoundException('Unable to find UseCase entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('project'));
+        return $this->redirect($this->generateUrl('usecase'));
     }
 
     /**
-     * Creates a form to delete a Project entity by id.
+     * Creates a form to delete a UseCase entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -234,9 +238,9 @@ class ProjectController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('project_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('usecase_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger pull-right')))
+            ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
         ;
     }
