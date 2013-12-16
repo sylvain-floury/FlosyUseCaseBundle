@@ -6,20 +6,18 @@
     <table class="records_list table table-striped">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Title</th>
                 <th>Aim</th>
-                <th>Precondition</th>
+                <th>Project</th>
                 <th>Actions</th>
             </tr>
         </thead>
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td>{{ entity.id }}</td>
                 <td>{{ entity.title }}</td>
                 <td>{{ entity.aim }}</td>
-                <td>{{ entity.precondition }}</td>
+                <td>{{ entity.project }}</td>
                 <td>
                     <a href="{{ path('usecase_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">edit</a>
                 </td>
