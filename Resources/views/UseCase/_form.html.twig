@@ -1,0 +1,40 @@
+    {{ form_start(form) }}
+        {{ form_errors(form) }}
+
+        <div class="form-group">
+            {{ form_label(form.title) }}
+            {{ form_errors(form.title) }}
+            {{ form_widget(form.title, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.aim) }}
+            {{ form_errors(form.aim) }}
+            {{ form_widget(form.aim, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.precondition) }}
+            {{ form_errors(form.precondition) }}
+            {{ form_widget(form.precondition, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.project) }}
+            {{ form_errors(form.project) }}
+            {{ form_widget(form.project, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+        
+        <div class="form-group">
+            {{ form_label(form.actors) }}
+            {{ form_errors(form.actors) }}
+            {{ form_widget(form.actors, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="pull-left">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="{{ path('usecase') }}" class="btn btn-default">
+                Back to the list
+            </a>
+        </div>
+    {{ form_end(form) }}

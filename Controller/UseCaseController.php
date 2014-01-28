@@ -53,7 +53,7 @@ class UseCaseController extends Controller
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('usecase_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('usecase_edit', array('id' => $entity->getId())));
         }
 
         return array(
@@ -75,8 +75,6 @@ class UseCaseController extends Controller
             'action' => $this->generateUrl('usecase_create'),
             'method' => 'POST',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
 
         return $form;
     }
@@ -146,7 +144,7 @@ class UseCaseController extends Controller
 
         return array(
             'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -164,8 +162,6 @@ class UseCaseController extends Controller
             'action' => $this->generateUrl('usecase_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
-
-        $form->add('submit', 'submit', array('label' => 'Update'));
 
         return $form;
     }
@@ -240,7 +236,7 @@ class UseCaseController extends Controller
         return $this->createFormBuilder()
             ->setAction($this->generateUrl('usecase_delete', array('id' => $id)))
             ->setMethod('DELETE')
-            ->add('submit', 'submit', array('label' => 'Delete'))
+            ->add('submit', 'submit', array('label' => 'Delete', 'attr' => array('class' => 'btn btn-danger pull-right')))
             ->getForm()
         ;
     }
