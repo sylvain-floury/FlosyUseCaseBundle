@@ -4,6 +4,7 @@ namespace Flosy\Bundle\UseCaseBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use \Doctrine\Common\Collections\ArrayCollection;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Flosy\Bundle\UseCaseBundle\Entity\UseCase
@@ -44,8 +45,16 @@ class UseCase
     private $precondition;
     
     /**
+     * @var int $order
+     *
+     * @ORM\Column(name="order_list", type="integer", nullable=true)
+     */
+    private $order;
+    
+    /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="useCases")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     * @JMS\Exclude
      **/
     private $project;
     
@@ -234,5 +243,28 @@ class UseCase
     
     public function __toString() {
         return $this->getTitle();
+    }
+
+    /**
+     * Set order
+     *
+     * @param integer $order
+     * @return UseCase
+     */
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    
+        return $this;
+    }
+
+    /**
+     * Get order
+     *
+     * @return integer 
+     */
+    public function getOrder()
+    {
+        return $this->order;
     }
 }

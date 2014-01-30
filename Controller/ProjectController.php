@@ -7,6 +7,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\Serializer\SerializerBuilder;
+
 use Flosy\Bundle\UseCaseBundle\Entity\Project;
 use Flosy\Bundle\UseCaseBundle\Form\ProjectType;
 
@@ -116,9 +118,14 @@ class ProjectController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $serializer = SerializerBuilder::create()->build();
+        
+        $usesCases = $serializer->serialize($em->getRepository('FlosyUseCaseBundle:UseCase')->findBy(array('project' => $entity), array('order' => 'ASC')), 'json');
+
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
+            'uses_cases'  => $usesCases,
         );
     }
 

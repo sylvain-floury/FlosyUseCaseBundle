@@ -5,7 +5,7 @@
     <div ng-app="sortableApp" ng-controller="sortableController">
     {% verbatim %}
         <ul ui-sortable="sortableOptions" ng-model="list" class="list">
-          <li ng-repeat="item in list" class="item">{{item.text}}</li>
+          <li ng-repeat="item in list" class="item">{{item.title}}</li>
         </ul>
 
         <ul class="list logList">
@@ -13,6 +13,10 @@
         </ul> 
     {% endverbatim %}
     </div>
+    
+    <a href="{{ path('usecase_new') }}" class="btn btn-default">
+        New use case
+    </a>
 {% endblock %}
 
 {% block javascripts %}
@@ -26,17 +30,9 @@
       var myapp = angular.module('sortableApp', ['ui.sortable']);
 
       myapp.controller('sortableController', function ($scope) {
-          var tmpList = [];
-
-          for (var i = 1; i <= 6; i++){
-              tmpList.push({
-                text: 'Item ' + i,
-                value: i
-              });
-          }
+          var tmpList = {{uses_cases|raw}};
 
           $scope.list = tmpList;
-
 
           $scope.sortingLog = [];
           
@@ -45,7 +41,7 @@
               stop: function(e, ui) {
                   var logEntry = {
                     ID: $scope.sortingLog.length + 1,
-                    Text: 'Moved element: ' + ui.item.scope().item.text
+                    Text: 'Moved element: ' + ui.item.scope().item.title
                   };
                   $scope.sortingLog.push(logEntry);
               }

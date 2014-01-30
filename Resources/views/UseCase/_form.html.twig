@@ -36,5 +36,11 @@
             <a href="{{ path('usecase') }}" class="btn btn-default">
                 Back to the list
             </a>
+            
+            {% if entity.project is not null %}
+            <a href="{{ path('project_show', {'id': entity.project.id}) }}" class="btn btn-default">
+                Back to project
+            </a>
+            {% endif %}
         </div>
     {{ form_end(form) }}
