@@ -20,13 +20,14 @@
                 <td>{% if entity.updated %}{{ entity.updated|date('Y-m-d H:i:s') }}{% endif %}</td>
                 <td>
                     <a href="{{ path('project_edit', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">edit</a>
+                    <a href="{{ path('project_show', { 'id': entity.id }) }}" class="btn btn-primary btn-xs">show</a>
                 </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
         
-    <a href="{{ path('project_new') }}" class="btn btn-default">
+    <a href="{{ path('project_new') }}" class="btn btn-primary">
         New project
     </a>
         

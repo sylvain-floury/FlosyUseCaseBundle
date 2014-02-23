@@ -4,19 +4,35 @@
     <h1>{{ entity.name }}</h1>
     <div ng-app="sortableApp" ng-controller="sortableController">
     {% verbatim %}
-        <ul ui-sortable="sortableOptions" ng-model="list" class="list">
-          <li ng-repeat="item in list" class="item">{{item.title}}</li>
-        </ul>
+        <table class="records_list table table-striped">
+            <thead>
+                <tr>
+                    <th>Use case</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody ui-sortable="sortableOptions" ng-model="list">
 
-        <ul class="list logList">
-          <li ng-repeat="entry in sortingLog" class="logItem">{{entry.Text}}</li>
-        </ul> 
+              <tr ng-repeat="item in list" class="item">
+                  <td>{{item.title}}</td>
+                  <td>
+                      <a href="{{item.id|computeUrl:editUrl }}" class="btn btn-primary btn-xs">edit</a>
+                      <a href="{{item.id|computeUrl:showUrl }}" class="btn btn-primary btn-xs">show</a>
+                  </td>
+              </tr>
+            </tbody>
+        </table>
+
     {% endverbatim %}
     </div>
-    
-    <a href="{{ path('usecase_new') }}" class="btn btn-default">
-        New use case
-    </a>
+    <div class="pull-left">
+        <a href="{{ path('usecase_new_to_project',  {'projectId': entity.id}) }}" class="btn btn-primary">
+            New use case
+        </a>
+        <a href="{{ path('project') }}" class="btn btn-default">
+            Back to the list
+        </a>
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -27,10 +43,18 @@
     <script src="{{asset('bundles/flosyusecase/js/angular.js')}}"></script>
     <script src="{{asset('bundles/flosyusecase/js/sortable.js')}}"></script>
     <script type="text/javascript">
-      var myapp = angular.module('sortableApp', ['ui.sortable']);
+      var myapp = angular.module('sortableApp', ['ui.sortable']).filter('computeUrl', function() {
+        return function(usecase_id, url) {  
+            return url.replace('0', usecase_id);
+        };
+      });
 
-      myapp.controller('sortableController', function ($scope) {
+      myapp.controller('sortableController', function ($scope, $http) {
           var tmpList = {{uses_cases|raw}};
+          
+          $scope.showUrl = '{{usecase_show_url}}';
+          
+          $scope.editUrl = '{{usecase_edit_url}}';
 
           $scope.list = tmpList;
 
@@ -39,11 +63,18 @@
           $scope.sortableOptions = {
               // called after a node is dropped
               stop: function(e, ui) {
-                  var logEntry = {
-                    ID: $scope.sortingLog.length + 1,
-                    Text: 'Moved element: ' + ui.item.scope().item.title
-                  };
-                  $scope.sortingLog.push(logEntry);
+             
+                  var order = 1;
+                  angular.forEach($scope.list, function(item) {
+                     item.order = order++;
+                  });
+                  
+                  $http.put('/usecase/sort', $scope.list).success(function(data, code) {
+                      console.log(code);
+                  })
+                  .error(function(data, code) {
+                      console.log(code);
+                  })
               }
           };
       });

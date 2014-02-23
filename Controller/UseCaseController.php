@@ -3,6 +3,7 @@
 namespace Flosy\Bundle\UseCaseBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -83,12 +84,21 @@ class UseCaseController extends Controller
      * Displays a form to create a new UseCase entity.
      *
      * @Route("/new", name="usecase_new")
+     * @Route("/new/to-project/{projectId}", name="usecase_new_to_project")
      * @Method("GET")
      * @Template()
      */
-    public function newAction()
+    public function newAction($projectId)
     {
         $entity = new UseCase();
+        
+        if(!is_null($projectId))
+        {
+            $em = $this->getDoctrine()->getManager();
+            $project = $em->getRepository('FlosyUseCaseBundle:Project')->find($projectId);
+            $entity->setProject($project);
+        }
+        
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -168,7 +178,7 @@ class UseCaseController extends Controller
     /**
      * Edits an existing UseCase entity.
      *
-     * @Route("/{id}", name="usecase_update")
+     * @Route("/{id}", requirements={"id" = "\d+"}, name="usecase_update")
      * @Method("PUT")
      * @Template("FlosyUseCaseBundle:UseCase:edit.html.twig")
      */
@@ -224,6 +234,29 @@ class UseCaseController extends Controller
         return $this->redirect($this->generateUrl('usecase'));
     }
 
+    /**
+     * Sort UseCase entities by the order.
+     *
+     * @Route("/sort", name="usecase_sort")
+     * @Method("PUT")
+     */
+    public function sortAction(Request $request) {
+        
+        $em = $this->getDoctrine()->getManager();
+        
+        foreach ($request->request->all() as $usecase) {
+            $entity = $em->getRepository('FlosyUseCaseBundle:UseCase')->find($usecase['id']);
+            $entity->setOrder($usecase['order']);
+            $em->persist($entity);
+        }   
+        
+        $em->flush();
+        
+        $response = new Response();
+        $response->setStatusCode('204');
+        return $response;
+    }
+    
     /**
      * Creates a form to delete a UseCase entity by id.
      *

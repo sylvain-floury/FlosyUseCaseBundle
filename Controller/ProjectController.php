@@ -122,10 +122,15 @@ class ProjectController extends Controller
         
         $usesCases = $serializer->serialize($em->getRepository('FlosyUseCaseBundle:UseCase')->findBy(array('project' => $entity), array('order' => 'ASC')), 'json');
 
+        $usecase_show_url = $this->generateUrl('usecase_show', array('id' => 0));
+        $usecase_edit_url = $this->generateUrl('usecase_edit', array('id' => 0));
+        
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
             'uses_cases'  => $usesCases,
+            'usecase_edit_url'  => $usecase_edit_url,
+            'usecase_show_url'  => $usecase_show_url,
         );
     }
 
@@ -172,6 +177,7 @@ class ProjectController extends Controller
 
         return $form;
     }
+    
     /**
      * Edits an existing Project entity.
      *
@@ -205,6 +211,7 @@ class ProjectController extends Controller
             'delete_form' => $deleteForm->createView(),
         );
     }
+    
     /**
      * Deletes a Project entity.
      *

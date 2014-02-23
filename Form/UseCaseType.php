@@ -16,10 +16,18 @@ class UseCaseType extends AbstractType
     {
         $builder
             ->add('title')
-            ->add('aim')
-            ->add('precondition')
             ->add('project')
-            ->add('actors')
+            ->add('actors', 'entity', array(
+                'class'    => 'FlosyUseCaseBundle:Actor',
+                'expanded' => TRUE,
+                'multiple' => TRUE,
+            ))
+            ->add('precondition', 'textarea', array('attr' => array(
+                'rows' => 5,
+            )))
+            ->add('aim', 'textarea', array('attr' => array(
+                'rows' => 5
+            )))
         ;
     }
     

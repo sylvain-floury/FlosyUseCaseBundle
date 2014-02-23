@@ -8,18 +8,6 @@
         </div>
 
         <div class="form-group">
-            {{ form_label(form.aim) }}
-            {{ form_errors(form.aim) }}
-            {{ form_widget(form.aim, { 'attr': {'class': 'form-control'} }) }}
-        </div>
-
-        <div class="form-group">
-            {{ form_label(form.precondition) }}
-            {{ form_errors(form.precondition) }}
-            {{ form_widget(form.precondition, { 'attr': {'class': 'form-control'} }) }}
-        </div>
-
-        <div class="form-group">
             {{ form_label(form.project) }}
             {{ form_errors(form.project) }}
             {{ form_widget(form.project, { 'attr': {'class': 'form-control'} }) }}
@@ -29,6 +17,18 @@
             {{ form_label(form.actors) }}
             {{ form_errors(form.actors) }}
             {{ form_widget(form.actors, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.precondition) }}
+            {{ form_errors(form.precondition) }}
+            {{ form_widget(form.precondition, { 'attr': {'class': 'form-control'} }) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.aim) }}
+            {{ form_errors(form.aim) }}
+            {{ form_widget(form.aim, { 'attr': {'class': 'form-control'} }) }}
         </div>
 
         <div class="pull-left">

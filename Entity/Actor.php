@@ -140,4 +140,12 @@ class Actor
     {
         return $this->useCases;
     }
+    
+    /**
+     * 
+     * @return String
+     */
+    public function __toString() {
+        return $this->getName();
+    }
 }
