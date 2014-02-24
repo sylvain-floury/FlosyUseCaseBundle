@@ -88,7 +88,7 @@ class UseCaseController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function newAction($projectId)
+    public function newAction($projectId=NULL)
     {
         $entity = new UseCase();
         
