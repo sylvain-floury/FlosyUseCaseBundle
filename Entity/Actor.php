@@ -38,10 +38,15 @@ class Actor
     /**
      *
      * @ORM\ManyToMany(targetEntity="UseCase", inversedBy="actors")
-     * @ORM\JoinTable(name="users_groups")
+     * @ORM\JoinTable(name="actors_usecases")
      */
     protected $useCases;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Project", inversedBy="actors")
+     * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
+     **/
+    private $project;
 
     /**
      * Get id
@@ -147,5 +152,28 @@ class Actor
      */
     public function __toString() {
         return $this->getName();
+    }
+
+    /**
+     * Set project
+     *
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\Project $project
+     * @return Actor
+     */
+    public function setProject(\Flosy\Bundle\UseCaseBundle\Entity\Project $project = null)
+    {
+        $this->project = $project;
+    
+        return $this;
+    }
+
+    /**
+     * Get project
+     *
+     * @return \Flosy\Bundle\UseCaseBundle\Entity\Project 
+     */
+    public function getProject()
+    {
+        return $this->project;
     }
 }

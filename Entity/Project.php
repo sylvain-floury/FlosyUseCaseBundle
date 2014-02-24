@@ -41,6 +41,12 @@ class Project
      * @ORM\OneToMany(targetEntity="UseCase", mappedBy="project", cascade={"all"})
      */
     private $useCases;
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Actor", mappedBy="project", cascade={"all"})
+     */
+    private $actors;
 
     /**
      * @Gedmo\Timestampable(on="create")
@@ -188,5 +194,38 @@ class Project
     
     public function __toString() {
         return $this->name;
+    }
+
+    /**
+     * Add actors
+     *
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\Actor $actors
+     * @return Project
+     */
+    public function addActor(\Flosy\Bundle\UseCaseBundle\Entity\Actor $actors)
+    {
+        $this->actors[] = $actors;
+    
+        return $this;
+    }
+
+    /**
+     * Remove actors
+     *
+     * @param \Flosy\Bundle\UseCaseBundle\Entity\Actor $actors
+     */
+    public function removeActor(\Flosy\Bundle\UseCaseBundle\Entity\Actor $actors)
+    {
+        $this->actors->removeElement($actors);
+    }
+
+    /**
+     * Get actors
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getActors()
+    {
+        return $this->actors;
     }
 }
