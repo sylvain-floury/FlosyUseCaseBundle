@@ -34,24 +34,24 @@ class Scenario
      * @ORM\Column(name="type", type="string", length=50)
      */
     private $type;
-    
+
     /**
      *
      * @ORM\ManyToOne(targetEntity="UseCase", inversedBy="scenarii")
      * @ORM\JoinColumn(name="use_case_id", referencedColumnName="id")
      */
     protected $useCase;
-    
+
     /**
      *
-     * @ORM\OneToMany(targetEntity="Step", mappedBy="scenario") 
+     * @ORM\OneToMany(targetEntity="Step", mappedBy="scenario")
      */
     protected $steps;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -61,20 +61,20 @@ class Scenario
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string   $name
      * @return Scenario
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -84,20 +84,20 @@ class Scenario
     /**
      * Set useCase
      *
-     * @param Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCase
+     * @param  Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCase
      * @return Scenario
      */
     public function setUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCase = null)
     {
         $this->useCase = $useCase;
-    
+
         return $this;
     }
 
     /**
      * Get useCase
      *
-     * @return Flosy\Bundle\UseCaseBundle\Entity\UseCase 
+     * @return Flosy\Bundle\UseCaseBundle\Entity\UseCase
      */
     public function getUseCase()
     {
@@ -110,17 +110,17 @@ class Scenario
     {
         $this->steps = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
     /**
      * Add steps
      *
-     * @param Flosy\Bundle\UseCaseBundle\Entity\Step $steps
+     * @param  Flosy\Bundle\UseCaseBundle\Entity\Step $steps
      * @return Scenario
      */
     public function addStep(\Flosy\Bundle\UseCaseBundle\Entity\Step $steps)
     {
         $this->steps[] = $steps;
-    
+
         return $this;
     }
 
@@ -137,7 +137,7 @@ class Scenario
     /**
      * Get steps
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getSteps()
     {
@@ -147,27 +147,27 @@ class Scenario
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string   $type
      * @return Scenario
      */
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
         return $this->type;
     }
-    
-    public function __toString() 
+
+    public function __toString()
     {
         return $this->name;
     }

@@ -34,7 +34,7 @@ class Step
      * @ORM\Column(name="position", type="integer")
      */
     private $position;
-    
+
     /**
      *
      * @ORM\ManyToOne(targetEntity="Scenario", inversedBy="steps")
@@ -42,11 +42,10 @@ class Step
      */
     protected $scenario;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -56,20 +55,20 @@ class Step
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string $description
      * @return Step
      */
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
@@ -79,20 +78,20 @@ class Step
     /**
      * Set position
      *
-     * @param integer $position
+     * @param  integer $position
      * @return Step
      */
     public function setPosition($position)
     {
         $this->position = $position;
-    
+
         return $this;
     }
 
     /**
      * Get position
      *
-     * @return integer 
+     * @return integer
      */
     public function getPosition()
     {
@@ -102,20 +101,20 @@ class Step
     /**
      * Set scenario
      *
-     * @param Flosy\Bundle\UseCaseBundle\Entity\Scenario $scenario
+     * @param  Flosy\Bundle\UseCaseBundle\Entity\Scenario $scenario
      * @return Step
      */
     public function setScenario(\Flosy\Bundle\UseCaseBundle\Entity\Scenario $scenario = null)
     {
         $this->scenario = $scenario;
-    
+
         return $this;
     }
 
     /**
      * Get scenario
      *
-     * @return Flosy\Bundle\UseCaseBundle\Entity\Scenario 
+     * @return Flosy\Bundle\UseCaseBundle\Entity\Scenario
      */
     public function getScenario()
     {

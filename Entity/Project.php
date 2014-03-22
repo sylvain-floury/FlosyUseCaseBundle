@@ -35,13 +35,13 @@ class Project
      * @ORM\Column(name="description", type="text")
      */
     private $description;
-    
+
     /**
      *
      * @ORM\OneToMany(targetEntity="UseCase", mappedBy="project", cascade={"all"})
      */
     private $useCases;
-    
+
     /**
      *
      * @ORM\OneToMany(targetEntity="Actor", mappedBy="project", cascade={"all"})
@@ -63,7 +63,7 @@ class Project
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -73,20 +73,20 @@ class Project
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string  $name
      * @return Project
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -96,26 +96,26 @@ class Project
     /**
      * Set description
      *
-     * @param string $description
+     * @param  string  $description
      * @return Project
      */
     public function setDescription($description)
     {
         $this->description = $description;
-    
+
         return $this;
     }
 
     /**
      * Get description
      *
-     * @return string 
+     * @return string
      */
     public function getDescription()
     {
         return $this->description;
     }
-    
+
     public function getCreated()
     {
         return $this->created;
@@ -129,26 +129,26 @@ class Project
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime $created
      * @return Project
      */
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
     /**
      * Set updated
      *
-     * @param \DateTime $updated
+     * @param  \DateTime $updated
      * @return Project
      */
     public function setUpdated($updated)
     {
         $this->updated = $updated;
-    
+
         return $this;
     }
     /**
@@ -162,7 +162,7 @@ class Project
     /**
      * Add useCases
      *
-     * @param \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
+     * @param  \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
      * @return Project
      */
     public function addUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases)
@@ -185,27 +185,28 @@ class Project
     /**
      * Get useCases
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUseCases()
     {
         return $this->useCases;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->name;
     }
 
     /**
      * Add actors
      *
-     * @param \Flosy\Bundle\UseCaseBundle\Entity\Actor $actors
+     * @param  \Flosy\Bundle\UseCaseBundle\Entity\Actor $actors
      * @return Project
      */
     public function addActor(\Flosy\Bundle\UseCaseBundle\Entity\Actor $actors)
     {
         $this->actors[] = $actors;
-    
+
         return $this;
     }
 
@@ -222,7 +223,7 @@ class Project
     /**
      * Get actors
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getActors()
     {

@@ -37,38 +37,38 @@
 
 {% block javascripts %}
     {{parent()}}
-    
+
     <script src="{{asset('bundles/flosyusecase/js/jquery.js')}}"></script>
     <script src="{{asset('bundles/flosyusecase/js/jquery-ui.js')}}"></script>
     <script src="{{asset('bundles/flosyusecase/js/angular.js')}}"></script>
     <script src="{{asset('bundles/flosyusecase/js/sortable.js')}}"></script>
     <script type="text/javascript">
       var myapp = angular.module('sortableApp', ['ui.sortable']).filter('computeUrl', function() {
-        return function(usecase_id, url) {  
+        return function(usecase_id, url) {
             return url.replace('0', usecase_id);
         };
       });
 
       myapp.controller('sortableController', function ($scope, $http) {
           var tmpList = {{uses_cases|raw}};
-          
+
           $scope.showUrl = '{{usecase_show_url}}';
-          
+
           $scope.editUrl = '{{usecase_edit_url}}';
 
           $scope.list = tmpList;
 
           $scope.sortingLog = [];
-          
+
           $scope.sortableOptions = {
               // called after a node is dropped
               stop: function(e, ui) {
-             
+
                   var order = 1;
                   angular.forEach($scope.list, function(item) {
                      item.order = order++;
                   });
-                  
+
                   $http.put('/usecase/sort', $scope.list).success(function(data, code) {
                       console.log(code);
                   })
@@ -80,4 +80,3 @@
       });
   </script>
 {% endblock %}
-    

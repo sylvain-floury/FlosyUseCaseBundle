@@ -34,7 +34,7 @@ class Actor
      * @ORM\Column(name="type", type="string", length=255)
      */
     private $type;
-    
+
     /**
      *
      * @ORM\ManyToMany(targetEntity="UseCase", inversedBy="actors")
@@ -51,7 +51,7 @@ class Actor
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -61,20 +61,20 @@ class Actor
     /**
      * Set name
      *
-     * @param string $name
+     * @param  string $name
      * @return Actor
      */
     public function setName($name)
     {
         $this->name = $name;
-    
+
         return $this;
     }
 
     /**
      * Get name
      *
-     * @return string 
+     * @return string
      */
     public function getName()
     {
@@ -84,27 +84,26 @@ class Actor
     /**
      * Set type
      *
-     * @param string $type
+     * @param  string $type
      * @return Actor
      */
     public function setType($type)
     {
         $this->type = $type;
-    
+
         return $this;
     }
 
     /**
      * Get type
      *
-     * @return string 
+     * @return string
      */
     public function getType()
     {
         return $this->type;
     }
 
-    
     /**
      * Constructor
      */
@@ -116,7 +115,7 @@ class Actor
     /**
      * Add useCases
      *
-     * @param \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
+     * @param  \Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases
      * @return Actor
      */
     public function addUseCase(\Flosy\Bundle\UseCaseBundle\Entity\UseCase $useCases)
@@ -139,38 +138,39 @@ class Actor
     /**
      * Get useCases
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getUseCases()
     {
         return $this->useCases;
     }
-    
+
     /**
-     * 
+     *
      * @return String
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->getName();
     }
 
     /**
      * Set project
      *
-     * @param \Flosy\Bundle\UseCaseBundle\Entity\Project $project
+     * @param  \Flosy\Bundle\UseCaseBundle\Entity\Project $project
      * @return Actor
      */
     public function setProject(\Flosy\Bundle\UseCaseBundle\Entity\Project $project = null)
     {
         $this->project = $project;
-    
+
         return $this;
     }
 
     /**
      * Get project
      *
-     * @return \Flosy\Bundle\UseCaseBundle\Entity\Project 
+     * @return \Flosy\Bundle\UseCaseBundle\Entity\Project
      */
     public function getProject()
     {

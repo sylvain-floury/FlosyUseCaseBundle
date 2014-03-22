@@ -43,40 +43,41 @@ class UseCase
      * @ORM\Column(name="precondition", type="string", length=500)
      */
     private $precondition;
-    
+
     /**
      * @var int $order
      *
      * @ORM\Column(name="order_list", type="integer", nullable=true)
      */
     private $order;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="Project", inversedBy="useCases")
      * @ORM\JoinColumn(name="project_id", referencedColumnName="id")
      * @JMS\Exclude
      **/
     private $project;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Actor", mappedBy="useCases")
      */
     protected $actors;
-    
+
     /**
      *
-     * @ORM\OneToMany(targetEntity="Scenario", mappedBy="useCase") 
+     * @ORM\OneToMany(targetEntity="Scenario", mappedBy="useCase")
      */
     protected $scenarii;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->scenarii = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -86,20 +87,20 @@ class UseCase
     /**
      * Set title
      *
-     * @param string $title
+     * @param  string  $title
      * @return UseCase
      */
     public function setTitle($title)
     {
         $this->title = $title;
-    
+
         return $this;
     }
 
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -109,20 +110,20 @@ class UseCase
     /**
      * Set aim
      *
-     * @param string $aim
+     * @param  string  $aim
      * @return UseCase
      */
     public function setAim($aim)
     {
         $this->aim = $aim;
-    
+
         return $this;
     }
 
     /**
      * Get aim
      *
-     * @return string 
+     * @return string
      */
     public function getAim()
     {
@@ -132,20 +133,20 @@ class UseCase
     /**
      * Set precondition
      *
-     * @param string $precondition
+     * @param  string  $precondition
      * @return UseCase
      */
     public function setPrecondition($precondition)
     {
         $this->precondition = $precondition;
-    
+
         return $this;
     }
 
     /**
      * Get precondition
      *
-     * @return string 
+     * @return string
      */
     public function getPrecondition()
     {
@@ -155,13 +156,13 @@ class UseCase
     /**
      * Add scenarii
      *
-     * @param Flosy\Bundle\UseCaseBundle\Entity\Scenario $scenarii
+     * @param  Flosy\Bundle\UseCaseBundle\Entity\Scenario $scenarii
      * @return UseCase
      */
     public function addScenarii(\Flosy\Bundle\UseCaseBundle\Entity\Scenario $scenarii)
     {
         $this->scenarii[] = $scenarii;
-    
+
         return $this;
     }
 
@@ -178,7 +179,7 @@ class UseCase
     /**
      * Get scenarii
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getScenarii()
     {
@@ -188,13 +189,13 @@ class UseCase
     /**
      * Add actors
      *
-     * @param Flosy\Bundle\UseCaseBundle\Entity\Actor $actors
+     * @param  Flosy\Bundle\UseCaseBundle\Entity\Actor $actors
      * @return UseCase
      */
     public function addActor(\Flosy\Bundle\UseCaseBundle\Entity\Actor $actors)
     {
         $this->actors[] = $actors;
-    
+
         return $this;
     }
 
@@ -211,7 +212,7 @@ class UseCase
     /**
      * Get actors
      *
-     * @return Doctrine\Common\Collections\Collection 
+     * @return Doctrine\Common\Collections\Collection
      */
     public function getActors()
     {
@@ -221,7 +222,7 @@ class UseCase
     /**
      * Set project
      *
-     * @param \Flosy\Bundle\UseCaseBundle\Entity\Project $project
+     * @param  \Flosy\Bundle\UseCaseBundle\Entity\Project $project
      * @return UseCase
      */
     public function setProject(\Flosy\Bundle\UseCaseBundle\Entity\Project $project = null)
@@ -234,34 +235,35 @@ class UseCase
     /**
      * Get project
      *
-     * @return \Flosy\Bundle\UseCaseBundle\Entity\Project 
+     * @return \Flosy\Bundle\UseCaseBundle\Entity\Project
      */
     public function getProject()
     {
         return $this->project;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->getTitle();
     }
 
     /**
      * Set order
      *
-     * @param integer $order
+     * @param  integer $order
      * @return UseCase
      */
     public function setOrder($order)
     {
         $this->order = $order;
-    
+
         return $this;
     }
 
     /**
      * Get order
      *
-     * @return integer 
+     * @return integer
      */
     public function getOrder()
     {

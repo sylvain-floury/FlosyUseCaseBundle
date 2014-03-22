@@ -91,14 +91,13 @@ class UseCaseController extends Controller
     public function newAction($projectId=NULL)
     {
         $entity = new UseCase();
-        
-        if(!is_null($projectId))
-        {
+
+        if (!is_null($projectId)) {
             $em = $this->getDoctrine()->getManager();
             $project = $em->getRepository('FlosyUseCaseBundle:Project')->find($projectId);
             $entity->setProject($project);
         }
-        
+
         $form   = $this->createCreateForm($entity);
 
         return array(
@@ -240,23 +239,24 @@ class UseCaseController extends Controller
      * @Route("/sort", name="usecase_sort")
      * @Method("PUT")
      */
-    public function sortAction(Request $request) {
-        
+    public function sortAction(Request $request)
+    {
         $em = $this->getDoctrine()->getManager();
-        
+
         foreach ($request->request->all() as $usecase) {
             $entity = $em->getRepository('FlosyUseCaseBundle:UseCase')->find($usecase['id']);
             $entity->setOrder($usecase['order']);
             $em->persist($entity);
-        }   
-        
+        }
+
         $em->flush();
-        
+
         $response = new Response();
         $response->setStatusCode('204');
+
         return $response;
     }
-    
+
     /**
      * Creates a form to delete a UseCase entity by id.
      *

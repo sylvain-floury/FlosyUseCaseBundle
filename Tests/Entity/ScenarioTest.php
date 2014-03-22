@@ -31,21 +31,21 @@ class ScenarioTest extends WebTestCase
         $useCase->setTitle('Inserting Scenario');
         $useCase->setPrecondition('Creating UseCase.');
         $useCase->setAim('Adding a scenario to a use case.');
-        
+
         $scenario = new Scenario();
         $scenario->setName('Main scenario.');
         $scenario->setUseCase($useCase);
-        
+
         $this->em->persist($useCase);
         $this->em->persist($scenario);
-        
+
         $this->em->flush();
-        
+
         $useCases = $this->em
             ->getRepository('FlosyUseCaseBundle:UseCase')
             ->findByTitle('Inserting Scenario')
         ;
-        
+
         $this->assertCount(1, $useCases);
     }
 
@@ -55,18 +55,16 @@ class ScenarioTest extends WebTestCase
             ->getRepository('FlosyUseCaseBundle:UseCase')
             ->findOneByTitle('Inserting Scenario')
         ;
-        
+
         $this->em->remove($useCase);
-        
+
         $this->em->flush();
-        
+
         $useCases = $this->em
             ->getRepository('FlosyUseCaseBundle:UseCase')
             ->findByTitle('Inserting Scenario')
         ;
-        
+
         $this->assertCount(0, $useCases);
     }
 }
-
-?>

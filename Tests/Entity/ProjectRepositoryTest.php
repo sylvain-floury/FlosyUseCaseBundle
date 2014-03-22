@@ -27,10 +27,10 @@ class ProjectRepositoryTest extends WebTestCase
         $project = new \Flosy\Bundle\UseCaseBundle\Entity\Project();
         $project->setName('My Project');
         $project->setDescription('Project description.');
-        
+
         $this->em->persist($project);
         $this->em->flush();
-        
+
         $projects = $this->em
             ->getRepository('FlosyUseCaseBundle:Project')
             ->findByName('My Project')

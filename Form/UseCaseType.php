@@ -10,7 +10,7 @@ class UseCaseType extends AbstractType
 {
         /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -30,7 +30,7 @@ class UseCaseType extends AbstractType
             )))
         ;
     }
-    
+
     /**
      * @param OptionsResolverInterface $resolver
      */
